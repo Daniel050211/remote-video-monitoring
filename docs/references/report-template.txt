@@ -1,0 +1,65 @@
+EIE4428 Multimedia Communications (2026/27)
+
+Template for Mini-Project Report
+
+(Cover Sheet)
+
+
+Croup Member
+Student ID
+
+
+
+
+
+
+Summary of the Project
+
+
+Development Platform: (WebRTC, or any others)
+
+Functionalities of the System:
+
+
+Functions
+Descriptions
+Basic Remote Monitoring Function
+(video only, or audio and video)
+Achieved Video Frame Rate (Frames/s)
+(15 frames/s, 30frames/s or others)
+Video Format
+(MPEG-4, H.264, H.265 or others)
+Video Resolution
+(640×480, 1280×960, 1920×1080 or others)
+Audio Format (if any)
+(MP3 or others)
+Concurrent Access to the Server
+(Yes or No, or how many)
+Assessment via Internet
+(Yes or No)
+
+
+Special Features of the System: (Highlight the special functions of the project, e.g., motion detection, face detection, face recognition, object tracking, recording, beautiful GUI, gesture recognition, emotion recognition …etc.)
+
+Details of the Project
+
+Achievements of the Project
+(Describe the achievements of the project and highlight the major contributions of your group)
+
+Methodology
+(Describe the development platform and the block diagram of the system. Highlight your own works in the block diagram.)
+
+Implementation Details of the Project
+(Give the details of the project implementation. Focus on your own work, i.e. indicate which codes you have written and for what purposes. Also, give some evaluations on your system, for example, the achieved frame rate and supported formats.)
+
+Design of User Interface
+(Give descriptions on the design of user interface)
+
+Co-operation between Group Members
+(Describe the role of each member in the project development)
+
+Conclusions
+(Make comments to the project and give suggestions for further improvements of the system)
+
+References
+(Give a full list of references (including the links on Internet) related to the project development)

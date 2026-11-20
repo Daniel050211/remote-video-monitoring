@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remote Video Monitoring</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body
+  data-configured-width="{{ config.width }}"
+  data-configured-height="{{ config.height }}"
+  data-configured-fps="{{ config.fps }}"
+  data-jpeg-quality="{{ config.jpeg_quality }}"
+  data-motion-enabled="{{ 'true' if config.motion_enabled else 'false' }}"
+  data-motion-sensitivity="{{ config.motion_sensitivity }}"
+  data-motion-cooldown="{{ config.motion_cooldown_seconds }}"
+  data-face-detection-enabled="{{ 'true' if config.face_detection_enabled else 'false' }}"
+>
+  <a class="skip-link" href="#main">Skip to live view</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <h1>Remote Video Monitoring</h1>
+      <p class="subtitle">EIE4428 Multimedia Communications</p>
+    </div>
+    <span id="source-badge" class="badge hidden">SYNTHETIC SOURCE</span>
+  </header>
+
+  <div id="alert" class="alert hidden" role="status" aria-live="polite"></div>
+
+  <main id="main" class="workspace">
+    <div class="stage">
+      <div class="frame-stage">
+        <div class="frame-wrap">
+          <img
+            id="stream"
+            src="{{ url_for('video_feed') }}"
+            alt="Live MJPEG video stream"
+            width="{{ config.width }}"
+            height="{{ config.height }}"
+          >
+        </div>
+      </div>
+
+      <aside class="rail" aria-label="Live state and controls">
+        <section class="actions" aria-label="Capture actions">
+          <button type="button" id="snapshot-button" class="btn btn-primary">Save snapshot</button>
+          <div class="recording-controls">
+            <button type="button" id="start-recording" class="btn btn-danger">Start recording</button>
+            <button type="button" id="stop-recording" class="btn btn-secondary" disabled>Stop recording</button>
+          </div>
+          <p id="snapshot-result" role="status" aria-live="polite"></p>
+          <img id="snapshot-preview" class="hidden" alt="Last saved snapshot" width="160" height="120">
+          <p id="recording-result" role="status" aria-live="polite"></p>
+          <p id="recording-error" class="hidden" role="status"></p>
+          <details class="quiet-note">
+            <summary>About manual recording</summary>
+            <p>
+              Start and stop a file on the server. The recorder uses the same
+              display frames already prepared for viewers, so the timestamp, MOTION badge, and face boxes may appear in the file. It does not open a second
+              camera. On this project the verified writer is Motion JPEG (MJPG)
+              in an AVI container. That saved file is not the live MJPEG HTTP
+              stream, and it is not H.264 or WebRTC. The writer FPS is the
+              configured container timestamp rate, not a measured capture rate.
+            </p>
+          </details>
+        </section>
+
+        <section class="live-state" aria-label="Live operational state">
+          <h2 class="rail-heading">Live state</h2>
+          <div class="metric" id="connection-pill">
+            <span class="label">Connection</span>
+            <span id="connection">Connecting…</span>
+          </div>
+          <div class="metric" id="motion-state-pill">
+            <span class="label">Motion</span>
+            <span id="motion-state">
+              {%- if config.motion_enabled -%}
+              On (checking)
+              {%- else -%}
+              Off
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="metric" id="face-state-pill">
+            <span class="label">Face detection</span>
+            <span id="face-state">
+              {%- if config.face_detection_enabled -%}
+              On (detection only)
+              {%- else -%}
+              Off
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="metric">
+            <span class="label">Faces in frame</span>
+            <span id="face-count">0</span>
+          </div>
+          <div class="metric" id="recording-state-pill">
+            <span class="label">Recording</span>
+            <span id="recording-state">Not recording</span>
+          </div>
+          <div class="metric">
+            <span class="label">Recording file</span>
+            <span id="recording-file">None yet</span>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="status-clusters" aria-label="Stream and activity details">
+      <section class="cluster" aria-labelledby="stream-heading">
+        <h2 id="stream-heading">Stream</h2>
+        <div class="metric">
+          <span class="label">Source</span>
+          <span id="source">—</span>
+        </div>
+        <div class="metric">
+          <span class="label">Resolution (configured)</span>
+          <span id="resolution">{{ config.width }}×{{ config.height }}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Configured FPS</span>
+          <span id="fps">{{ config.fps }}</span>
+        </div>
+        <div class="metric">
+          <span class="label">JPEG quality</span>
+          <span id="quality">{{ config.jpeg_quality }}</span>
+        </div>
+        <div class="metric" id="timestamp-pill">
+          <span class="label">Timestamp overlay</span>
+          <span id="timestamp">
+            {%- if config.timestamp_overlay -%}
+            On (HKT, UTC+8)
+            {%- else -%}
+            Off
+            {%- endif -%}
+          </span>
+        </div>
+      </section>
+
+      <section class="cluster" aria-labelledby="activity-heading">
+        <h2 id="activity-heading">Activity</h2>
+        <div class="metric">
+          <span class="label">Motion sensitivity</span>
+          <span id="motion-sensitivity-status">{{ config.motion_sensitivity }} (1=least, 100=most)</span>
+        </div>
+        <div class="metric">
+          <span class="label">Motion cooldown (configured)</span>
+          <span id="motion-cooldown">{{ config.motion_cooldown_seconds }} s</span>
+        </div>
+        <div class="metric">
+          <span class="label">Last motion event (HKT)</span>
+          <span id="motion-last-event">None yet</span>
+        </div>
+        <div class="metric">
+          <span class="label">Motion event log</span>
+          <span id="motion-log-count">0 / {{ config.motion_log_size }}</span>
+        </div>
+      </section>
+    </section>
+
+    <div class="work-panels">
+      <section class="face-panel panel" aria-label="Face detection">
+        <h2>Face detection</h2>
+        <p class="hint">
+          Detects roughly frontal faces once on the server using an OpenCV
+          Haar cascade (classical Viola-Jones). This is <strong>detection
+          only</strong>, not recognition or identification: the system
+          draws boxes and reports a count. It does not name or track
+          people. Lighting, pose, and occlusion can cause missed
+          detections or false positives.
+        </p>
+        <div class="face-controls">
+          <label class="toggle">
+            <input type="checkbox" id="face-enabled"
+              {% if config.face_detection_enabled %}checked{% endif %}>
+            <span>Enable face detection</span>
+          </label>
+        </div>
+        <p id="face-control-result" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="motion-panel panel" aria-label="Motion detection">
+        <h2>Motion detection</h2>
+        <p class="hint">
+          Compares consecutive grayscale frames on the server (once, not per viewer).
+          Lighting changes can look like motion. This is not promised false-positive-free.
+        </p>
+        <div class="motion-controls">
+          <label class="toggle">
+            <input type="checkbox" id="motion-enabled"
+              {% if config.motion_enabled %}checked{% endif %}>
+            <span>Enable motion detection</span>
+          </label>
+          <label class="sensitivity">
+            <span>Sensitivity <strong id="sensitivity-value">{{ config.motion_sensitivity }}</strong> (higher = more sensitive)</span>
+            <input type="range" id="motion-sensitivity" min="1" max="100" step="1"
+              value="{{ config.motion_sensitivity }}">
+          </label>
+        </div>
+        <p id="motion-control-result" role="status" aria-live="polite"></p>
+        <h3>Event log <span class="muted">(newest first, oldest dropped at the bound)</span></h3>
+        <ul id="motion-log">
+          <li class="empty">No motion events yet.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <details>
+      <summary>Transport, limits, and trusted-use notes</summary>
+      <p>
+        Transport: MJPEG over HTTP (a sequence of JPEG images).
+        This is not H.264, H.265, or WebRTC. Video only — no audio.
+      </p>
+      <p>
+        Configured FPS is the server capture-loop target, not a measured
+        browser display rate. Timestamps use Asia/Hong_Kong (HKT, UTC+8)
+        and are drawn once on the server before JPEG encoding. Snapshots
+        are saved as JPEG files under a server-controlled project folder
+        (data/snapshots/); the browser cannot choose a filesystem path.
+        Motion detection uses grayscale frame differencing with a configured
+        cooldown (default 2.0 s) and a bounded event log; it is not a
+        measured accuracy figure and is not promised false-positive-free.
+        Face detection uses an OpenCV Haar cascade (detection only, not
+        recognition). It runs once on a downscaled copy and every Nth
+        frame (configured trade-off, not a measured FPS). Face boxes may
+        appear in snapshots and recordings because those features use the
+        same display frames. Manual recordings are saved as Motion JPEG
+        (MJPG) in an AVI container
+        under a server-controlled folder (data/recordings/); the browser
+        cannot choose a filesystem path. Windows codec availability has not
+        been verified. Trusted local use only; not a production-secure
+        surveillance system.
+      </p>
+    </details>
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

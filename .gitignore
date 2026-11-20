@@ -1,0 +1,37 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local captures and secrets — never commit these
+data/snapshots/
+data/recordings/
+snapshots/
+recordings/
+captures/
+secrets/
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Personal camera captures from the demo PC — do not commit
+docs/screenshots/windows-live-snapshot.jpg
+docs/screenshots/windows-camera-probe.jpg

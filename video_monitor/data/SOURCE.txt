@@ -1,0 +1,23 @@
+haarcascade_frontalface_default.xml
+===================================
+
+This is an official OpenCV Haar cascade for frontal-face *detection*.
+It is not a recognition or identification model.
+
+Source (OpenCV 5 location):
+  https://raw.githubusercontent.com/opencv/opencv_contrib/5.x/modules/xobjdetect/data/haarcascades/haarcascade_frontalface_default.xml
+  (opencv_contrib repository, branch 5.x, module xobjdetect)
+
+The same classical file was previously published at:
+  https://github.com/opencv/opencv/blob/4.x/data/haarcascades/haarcascade_frontalface_default.xml
+
+Author noted in the XML header: Rainer Lienhart.
+The XML file itself contains the Intel License Agreement for the
+Open Source Computer Vision Library (BSD-style). That header is
+retained in the bundled copy.
+
+Why it is bundled:
+  OpenCV 5 moved cv2.CascadeClassifier to the contrib package, and the
+  opencv-contrib-python 5.0.0.93 wheel used on this project does not
+  ship the XML files under cv2.data.haarcascades. The application loads
+  this bundled copy first, then falls back to cv2.data if present.

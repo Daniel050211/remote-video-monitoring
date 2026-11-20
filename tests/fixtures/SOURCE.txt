@@ -1,0 +1,28 @@
+astronaut_face.png
+==================
+
+Positive test fixture for Haar *face detection* (not recognition).
+
+Content:
+  Photograph of astronaut Eileen Collins.
+
+License / rights:
+  NASA photograph. scikit-image documents this file as having no known
+  copyright restrictions and being released into the public domain.
+  NASA should be credited as the source. This project uses the image
+  only as an automated-test fixture for bounding-box detection, not
+  for identification, advertising, or any implied NASA endorsement.
+
+Obtained from:
+  https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/astronaut.png
+  (scikit-image v0.25.2, 512×512 PNG)
+
+scikit-image documentation of the same image:
+  https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.astronaut
+  Original NASA Great Images / Flickr pointer cited there: https://flic.kr/p/r9qvLn
+
+SHA-256 of the bundled file:
+  88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5
+
+This is not a photograph collected from a random web search, and it
+is not used to identify a person in the application.
