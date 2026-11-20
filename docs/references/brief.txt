@@ -1,0 +1,169 @@
+               The Hong Kong Polytechnic University
+               Department of Electrical and Electronic Engineering
+
+
+            EIE4428 Multimedia Communications (2026/27)
+
+                     Mini-Project: Remote Video Monitoring
+
+Objectives
+
+This is a system integration project, which is designed for students to learn fundamentals for
+data capture, compression, and transmission of multimedia data over networks.
+
+Equipment
+
+PCs/notebooks with camera.
+
+Grouping
+
+Each group should have two students.
+
+Project Demonstration
+Week 13 (November 25 to November 28, 2026)
+
+Report and Codes Submission Deadline
+November 39, 2026 (Sunday) (One report per group)
+
+
+
+
+KTLO/EEE/HK POLYU/2026                   Page - 1
+Details of the Project
+
+• Implement a remote video monitoring system, in which a user can monitor a place through
+   a remote station (PC) using a standard Web browser like Chrome or Firefox or a standalone
+   reception software.
+
+
+
+
+                                                                 Remote monitoring station
+
+
+
+
+                                        Internet
+
+                                                                 Remote monitoring station
+       Video Server
+
+
+
+
+                                                                 Remote monitoring station
+
+
+                                Remote video monitoring system
+
+• The system will consist of a video server, an interface between video server and web, and
+   a web page containing a link to the video server.
+
+• The video server is used for video capture and compression. The video is first captured and
+   each video frame is then compressed.
+
+• At the remote station, users can use a standard web browser or a reception software installed
+   at the client machine to access video content of the video server in real-time.
+
+• A snap shot of a commercial remote video monitoring software at the client machine is
+   shown below for your reference:
+
+
+
+
+KTLO/EEE/HK POLYU/2026                   Page - 2
+              A snap shot of a commercial remote video monitoring software
+
+
+• There are many approaches for implementations. One is to use a development tool like
+   WebRTC. The other is to implement the system using your own codes.
+
+• This system integration project can be completed using any available language and any
+   development platform other than the tools mentioned below.
+
+• Advanced features like timing information, motion detection (set alarm when a motion is
+   detected in a static background), face detection, face recognition, video recording with
+   timing information, unlimited concurrent access, audio signal, object tracking (tracking the
+   position of the moving objects in the video), gesture recognition, as well as emotion
+   recognition may be implemented.
+
+
+
+
+KTLO/EEE/HK POLYU/2026                   Page - 3
+Tools
+
+•   WebRTC
+
+    WebRTC is a free, open project that provides browsers and mobile applications with Real-
+    Time Communications (RTC) capabilities via simple APIs. More information can be
+    found at:
+
+    https://webrtc.org
+
+    More information about the applications of WebRTC can be found in the following sites:
+
+    https://web.dev/articles/webrtc-basics
+    https://webrtc.github.io/samples/
+
+•   Owncast
+
+    Owncast is a self-hosted live video and web chat server that allows you to stream your
+    content to your audience without relying on third-party platforms. It has no forced ads,
+    subscription fees, or viewer limits.
+
+    https://owncast.online/
+
+•   Open Streaming Platform
+
+    An open-source, self-hosted video streaming and sharing platform built on NGINX
+    RTMP that handles both live broadcasts and pre-recorded video libraries.
+
+    https://github.com/Open-Streaming-Platform/open-streaming-platform
+
+•   Red5 Media Server
+
+    An open-source streaming server designed for developers who want to build custom live
+    streaming and interactive video applications.
+
+    https://www.red5.net/red5-media-server/
+
+
+
+
+KTLO/EEE/HK POLYU/2026                  Page - 4
+Assessment
+
+• Each group should hand in a written report summarizing how you have implemented the
+    system together with a zip file containing all source codes and executable files and upload
+    via Canvas on or before November 29, 2026 (Sunday).
+
+• Each group should demonstrate the system to the lecturer during the demonstration sessions,
+    which will be held in Week 13 (November 25 to November 28, 2026).
+
+    The demonstration sessions will be scheduled around the week before the final submission.
+
+•   Marks will be allocated in consideration of the following aspects:
+
+    -   The functionality of the system;
+    -   The design of user interface;
+    -   The stability of the system;
+    -   The report of the project
+
+    In general, more customizations can be made, more marks will be given.
+
+•   A satisfactory grade will be given to students who can achieve the following:
+    - A workable and stable system that the user can view the video from a remote PC
+    - A simple but user friendly user interface
+    - An acceptable video quality
+    - A report clearly showing the details of the implementation and the division of effort
+       among group members.
+
+•   A better grade can be obtained if the students’ work contains more advanced monitoring
+    functions as mentioned before.
+
+
+
+
+KTLO/EEE/HK POLYU/2026                     Page - 5
+

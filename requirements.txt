@@ -1,0 +1,26 @@
+# Direct dependencies.
+# Verified by import on this development box: Linux, Python 3.13.5.
+# PyPI provides Windows and Linux wheels for these versions that include
+# Python 3.12 tags (or abi3 / py3-none-any). Runtime behaviour on
+# Windows Python 3.12.10 has not been executed in this iteration.
+#
+# Install (from the project directory, after activating the venv):
+#   python -m pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# Transitive packages (Flask, OpenCV, pytest) are resolved by pip for the
+# active Python version and platform. They are not pinned here so that
+# Windows Python 3.12 can receive the matching binary wheels.
+
+# OpenCV 5 moved cv2.CascadeClassifier (Haar / Viola-Jones) into the
+# contrib package. opencv-python and opencv-contrib-python cannot be
+# installed together; this project uses the contrib wheel at the same
+# 5.0.0.93 version already verified for capture, JPEG, and recording.
+# The official Haar XML is also bundled under video_monitor/data/
+# because the 5.0.0.93 wheel does not ship it in cv2.data.haarcascades.
+flask==3.1.3
+opencv-contrib-python==5.0.0.93
+waitress==3.0.2
+pytest==9.2.0
+# Required on Windows CPython so ZoneInfo can load Asia/Hong_Kong.
+tzdata==2026.6
